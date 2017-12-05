@@ -1,0 +1,1 @@
+export const ADD_PEOPLE_REDUX_FORM = 'ADD_PEOPLE';
