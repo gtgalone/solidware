@@ -47,7 +47,7 @@ gulp.task('webpack:build', (callback) => {
 
 // development build dev server
 const devServerConfig = Object.assign({}, webpackConfig);
-devServerConfig.cache = true;
+devServerConfig.cache = false;
 devServerConfig.devtool = 'sourcemap';
 const devCompiler = webpack([devServerConfig[0], devServerConfig[1]]);
 
@@ -61,17 +61,17 @@ gulp.task('dist', ['styles:dist', 'webpack:build']);
 gulp.task('browser-sync', ['nodemon'], () => {
   browserSync.init(null, {
     proxy: 'http://localhost:3000',
-    files: ['dist/**/*.*'],
+    files: ['dist/server.js', 'dist/client.js'],
     browser: 'google chrome',
     port: 7000,
-    reloadDelay: 800,
+    reloadDelay: 3000,
   });
 });
 
 gulp.task('nodemon', (callback) => {
   let started = false;
   return nodemon({
-    script: 'production.js',
+    script: './server/server.js',
   }).on('start', () => {
     // to avoid nodemon being started multiple times
     // thanks @matthisk
@@ -84,5 +84,5 @@ gulp.task('nodemon', (callback) => {
 
 // default
 gulp.task('default', ['webpack:build-dev'], () => {
-  gulp.watch(['src/**/*'], ['webpack:build-dev']);
+  gulp.watch(['src/**/*', 'shared/**/*'], ['webpack:build-dev']);
 });

@@ -5,11 +5,11 @@ import { Helmet } from 'react-helmet';
 import PeopleContainer from './people/people-container';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
+  componentDidMount() {
+    const jssStyles = document.getElementById('jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
   }
   render() {
     return (

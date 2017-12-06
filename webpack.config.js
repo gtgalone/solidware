@@ -1,5 +1,6 @@
 const path = require('path');
 const StatsPlugin = require('stats-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = [
   {
@@ -10,9 +11,6 @@ module.exports = [
       path: path.join(__dirname, 'dist'),
       filename: 'client.js',
       publicPath: '/dist/',
-    },
-    resolve: {
-      extensions: ['.js', '.jsx'],
     },
     devtool: 'source-map',
     module: {
@@ -28,6 +26,18 @@ module.exports = [
         },
       ],
     },
+    resolve: {
+      extensions: ['.js', '.jsx'],
+      alias: {
+        shared: path.join(__dirname, 'shared'),
+      },
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: path.join(__dirname, 'src/index.html'),
+      }),
+    ],
   }, {
     name: 'server',
     target: 'node',
@@ -41,6 +51,9 @@ module.exports = [
     devtool: 'source-map',
     resolve: {
       extensions: ['.js', '.jsx'],
+      alias: {
+        shared: path.join(__dirname, 'shared'),
+      },
     },
     module: {
       rules: [
