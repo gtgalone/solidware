@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import { Grid, Paper, Button, Table, TableBody, TableCell,
-  TableHead, TableRow, Typography, Toolbar, FormControl, Input, InputLabel } from 'material-ui';
-import { PersonAdd, Delete } from 'material-ui-icons';
+  TableHead, TableRow, FormControl, Input, InputLabel } from 'material-ui';
 
 class GroupComponent extends React.Component {
   constructor(props) {
@@ -29,7 +27,9 @@ class GroupComponent extends React.Component {
     const { groups, limit } = this.state;
     this.result = [];
     if (Math.ceil(peopleCount / parseInt(limit, 10)) < parseInt(groups, 10)) {
-      alert(`Too many!! You can make groups within ${Math.ceil(peopleCount / parseInt(limit, 10))}`);
+      alert(`Too many!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
+    } else if (Math.ceil(peopleCount / parseInt(limit, 10)) > parseInt(groups, 10)) {
+      alert(`Too low!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
     } else {
       for (let i = 0; i < Math.ceil(peopleCount / parseInt(limit, 10)); i += 1) {
         this.result.push([]);

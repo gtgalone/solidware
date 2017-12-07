@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 const init = require('./database/model/init.model');
+
 const apiRouter = require('./router/api.router');
 
 const app = express();
@@ -14,10 +15,13 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 mongoose.connect('mongodb://mongo:27017/test', { useMongoClient: true })
-  .then(({ db: { databaseName } }) => console.log(`Connected to ${databaseName}`))
+  .then(({ db: { databaseName } }) => {
+    console.log(`Connected to ${databaseName}`);
+    mongoose.connection.db.dropDatabase().then(() => {
+      init();
+    });
+  })
   .catch(err => console.error(err));
-
-// init();
 
 const handleRender = require('./render/handleRender');
 
