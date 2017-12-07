@@ -68,7 +68,7 @@ gulp.task('browser-sync', ['nodemon'], () => {
   });
 });
 
-gulp.task('nodemon', (callback) => {
+gulp.task('nodemon', ['webpack:build-dev'], (callback) => {
   let started = false;
   return nodemon({
     script: './server/server.js',
@@ -83,6 +83,6 @@ gulp.task('nodemon', (callback) => {
 });
 
 // default
-gulp.task('default', ['webpack:build-dev'], () => {
+gulp.task('default', ['webpack:build-dev', 'nodemon'], () => {
   gulp.watch(['src/**/*', 'shared/**/*'], ['webpack:build-dev']);
 });

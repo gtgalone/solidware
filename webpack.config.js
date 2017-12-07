@@ -1,12 +1,11 @@
 const path = require('path');
-const StatsPlugin = require('stats-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = [
   {
     name: 'client',
     target: 'web',
-    entry: ['whatwg-fetch', './src/client.jsx'],
+    entry: './src/client.jsx',
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'client.js',
@@ -68,13 +67,5 @@ module.exports = [
         },
       ],
     },
-    plugins: [
-      new StatsPlugin('stats.json', {
-        chunkModules: true,
-        modules: true,
-        chunks: true,
-        exclude: [/node_modules[\\/]react/],
-      }),
-    ],
   },
 ];

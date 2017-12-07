@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-mongoose.connect('mongodb://localhost/test', { useMongoClient: true })
+mongoose.connect('mongodb://mongo:27017/test', { useMongoClient: true })
   .then(({ db: { databaseName } }) => console.log(`Connected to ${databaseName}`))
   .catch(err => console.error(err));
 
