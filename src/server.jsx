@@ -35,6 +35,11 @@ const theme = createMuiTheme({
         height: 'auto',
       },
     },
+    MuiDialogActions: {
+      action: {
+        width: '100%',
+      },
+    },
   },
 });
 
@@ -51,7 +56,7 @@ const render = (location) => {
       <Provider store={store}>
         <JssProvider registry={sheetsRegistry} jss={jss}>
           <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-            <App />
+            <App location={location} />
           </MuiThemeProvider>
         </JssProvider>
       </Provider>

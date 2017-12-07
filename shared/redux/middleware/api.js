@@ -1,6 +1,7 @@
-import * as nprogress from 'nprogress';
-import 'whatwg-fetch';
-import 'es6-promise';
+import nprogress from 'nprogress';
+
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
 nprogress.configure({ showSpinner: false });
 
@@ -22,7 +23,7 @@ const callApi = (endpoint, opts) => {
         return response.json()
           .then(
             json => Promise.reject(json),
-            () => Promise.reject({ message: `"${response.statusText}" 오류가 발생했습니다.` }),
+            err => Promise.reject(err, { message: `"${response.statusText}" 오류가 발생했습니다.` }),
           );
       }
       return response;

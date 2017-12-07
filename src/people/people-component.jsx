@@ -1,21 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Paper, Dialog, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Toolbar } from 'material-ui';
+import { Grid, Paper, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, Toolbar } from 'material-ui';
+import { PersonAdd, Delete } from 'material-ui-icons';
 
 import ModalAddPersonContainer from './modal/add-person-container';
-
-const people = [
-  { id: 1, name: 'qwdqwd' },
-  { id: 2, name: 'qwdqwd' },
-  { id: 3, name: 'qwdqwd' },
-  { id: 4, name: 'qwdqwd' },
-  { id: 5, name: 'qwdqwd' },
-  { id: 6, name: 'qwdqwd' },
-  { id: 7, name: 'qwdqwd' },
-  { id: 8, name: 'qwdqwd' },
-  { id: 9, name: 'qwdqwd' },
-  { id: 10, name: 'qwdqwd' },
-];
 
 class PeopleComponent extends React.Component {
   constructor(props) {
@@ -24,7 +12,12 @@ class PeopleComponent extends React.Component {
       addPerson: false,
     };
   }
+  componentWillMount() {
+    const { loadPeople } = this.props;
+    loadPeople();
+  }
   render() {
+    const { people, destroyPerson } = this.props;
     const { addPerson } = this.state;
     return (
       <Grid container spacing={0} justify="center">
@@ -45,24 +38,34 @@ class PeopleComponent extends React.Component {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>
-                        <Button onClick={() => this.setState({ addPerson: true })}>add person</Button>
+                      <TableCell padding="dense" style={{ textAlign: 'center' }}>Name</TableCell>
+                      <TableCell padding="dense" style={{ textAlign: 'center' }}>
+                        <IconButton onClick={() => this.setState({ addPerson: true })}>
+                          <PersonAdd />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {
                       people.map(item => (
-                        <TableRow key={item.id}>
-                          <TableCell>{item.name}</TableCell>
+                        <TableRow key={item.name}>
+                          <TableCell padding="dense" style={{ textAlign: 'center' }}>{item.name}</TableCell>
+                          <TableCell padding="dense" style={{ textAlign: 'center' }}>
+                            <IconButton onClick={() => { if (confirm('Really?')) destroyPerson(item._id); }}>
+                              <Delete />
+                            </IconButton>
+                          </TableCell>
                         </TableRow>
                       ))
                     }
                   </TableBody>
                 </Table>
               </Grid>
-              <ModalAddPersonContainer addPerson={addPerson} onRequestClose={() => this.setState({ addPerson: false })} />
+              <ModalAddPersonContainer
+                addPerson={addPerson}
+                onRequestClose={() => this.setState({ addPerson: false })}
+              />
             </Paper>
           </Grid>
         </Grid>
@@ -72,6 +75,9 @@ class PeopleComponent extends React.Component {
 }
 
 PeopleComponent.propTypes = {
+  loadPeople: PropTypes.func.isRequired,
+  people: PropTypes.arrayOf(Object).isRequired,
+  destroyPerson: PropTypes.func.isRequired,
 };
 
 export default PeopleComponent;

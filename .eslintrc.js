@@ -5,7 +5,11 @@ module.exports = {
         "import"
     ],
     "rules": {
-        "indent": ["error", 2]   
+        "indent": ["error", 2],
+        "jsx-a11y/anchor-is-valid": [ "error", {
+            "components": [ "Link" ],
+            "specialLink": [ "to" ]
+        }]
     },
     "env": {
         "browser": true,

@@ -10,19 +10,19 @@ const ModalAddPersonComponent = props => (
     open={props.addPerson}
     onRequestClose={props.onRequestClose}
   >
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={props.handleSubmit} noValidate>
       <DialogTitle disableTypography>
         <Typography type="body1" component="span">ADD PERSON</Typography>
       </DialogTitle>
       <DialogContent>
-        <Field name="name" placeholder="name" component={FormGroupInput} />
+        <Field name="name" label="Name" component={FormGroupInput} required autoFocus />
       </DialogContent>
       <DialogActions>
         {
           props.val.name ?
-            <Button type="submit">submit</Button>
+            <Button type="submit" style={{ width: '100%' }} onClick={() => props.valid && setTimeout(() => props.onRequestClose(), 100)}>submit</Button>
             :
-            <Button type="button" onClick={props.onRequestClose}>cancel</Button>
+            <Button type="button" onClick={props.onRequestClose} style={{ width: '100%' }}>cancel</Button>
         }
       </DialogActions>
     </form>
@@ -33,7 +33,8 @@ ModalAddPersonComponent.propTypes = {
   addPerson: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onRequestClose: PropTypes.func.isRequired,
-  val: PropTypes.string.isRequired,
+  val: PropTypes.objectOf(String).isRequired,
+  valid: PropTypes.bool.isRequired,
 };
 
 export default ModalAddPersonComponent;

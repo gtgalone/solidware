@@ -27,14 +27,19 @@ const theme = createMuiTheme({
         height: 'auto',
       },
     },
+    MuiDialogActions: {
+      action: {
+        width: '100%',
+      },
+    },
   },
 });
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <BrowserRouter>
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
-        <App />
+        <App location={window.location.pathname} />
       </MuiThemeProvider>
     </Provider>
   </BrowserRouter>, document.getElementById('root'));

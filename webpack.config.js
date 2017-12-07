@@ -6,7 +6,7 @@ module.exports = [
   {
     name: 'client',
     target: 'web',
-    entry: './src/client.jsx',
+    entry: ['whatwg-fetch', './src/client.jsx'],
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'client.js',

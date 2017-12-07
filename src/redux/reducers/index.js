@@ -14,7 +14,7 @@ import {
 
 const reducers = combineReducers({
   form: formReducer,
-  aa: createPageReducer('aa'),
+  people: createArrayReducer('people', { idKey: '_id' }),
 });
 
 export default reducers;
