@@ -3,8 +3,27 @@ const peopleModel = require('../database/model/people.model');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  peopleModel.find((err, data) => {
+router.get('/', async (req, res) => {
+  peopleModel.find({}, (err, data) => {
+    if (err) {
+      return res.status(500).send({ error: 'database failure' });
+    }
+    return res.json(data);
+  });
+});
+
+router.get('/random', async (req, res) => {
+  const size = await peopleModel.count({}, (err, count) => count);
+  peopleModel.aggregate({ $sample: { size } }, (err, data) => {
+    if (err) {
+      return res.status(500).send({ error: 'database failure' });
+    }
+    return res.json(data);
+  });
+});
+
+router.get('/count', async (req, res) => {
+  peopleModel.count({}, (err, data) => {
     if (err) {
       return res.status(500).send({ error: 'database failure' });
     }

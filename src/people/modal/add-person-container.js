@@ -11,13 +11,13 @@ const { create: createPerson, add: addPerson } = actionForList('people', '/peopl
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const asyncValidate = (values, dispatch, props) => {
-  return sleep(100).then(() => {
+const asyncValidate = (values, dispatch, props) => (
+  sleep(100).then(() => {
     if (props.people.filter(v => v.name.toLowerCase() === values.name.toLowerCase()).length > 0) {
       throw { name: 'That name is taken' }
     }
-  });
-};
+  })
+);
 
 const onSubmit = (values, dispatch, props) => {
   const formData = {
