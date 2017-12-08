@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import { actionForList, isSuccess } from '../../shared/redux/modules/redux-rest-api';
+import Notification from '../../shared/components/notification';
 
 import PeopleComponent from './people-component';
 
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
   destroyPerson: id => dispatch(destroyPerson(id)).then((res) => {
     if (isSuccess(res.type)) {
       dispatch(removePerson(id));
+      Notification.success('Remove Person Successfully');
     }
   }),
 });

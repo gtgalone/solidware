@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Paper, Button, Table, TableBody, TableCell,
   TableHead, TableRow, FormControl, Input, InputLabel } from 'material-ui';
+import Notification from '../../shared/components/notification';
 
 class GroupComponent extends React.Component {
   constructor(props) {
@@ -27,9 +28,9 @@ class GroupComponent extends React.Component {
     const { groups, limit } = this.state;
     this.result = [];
     if (Math.ceil(peopleCount / parseInt(limit, 10)) < parseInt(groups, 10)) {
-      alert(`Too many!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
+      Notification.error(`Too many!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
     } else if (Math.ceil(peopleCount / parseInt(limit, 10)) > parseInt(groups, 10)) {
-      alert(`Too low!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
+      Notification.error(`Too low!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
     } else {
       for (let i = 0; i < Math.ceil(peopleCount / parseInt(limit, 10)); i += 1) {
         this.result.push([]);
@@ -44,7 +45,10 @@ class GroupComponent extends React.Component {
             this.result[i].push(item);
           });
         })
-        .then(() => this.setState({ madeGroup: this.result }));
+        .then(() => {
+          this.setState({ madeGroup: this.result });
+          Notification.success(`Made ${peopleCount / parseInt(limit, 10)} groups`);
+        });
     }
   }
   render() {

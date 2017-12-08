@@ -3,6 +3,7 @@ import { reduxForm, formValueSelector, reset } from 'redux-form';
 
 import { people } from '../../redux/modules';
 import { actionForList, isSuccess } from '../../../shared/redux/modules/redux-rest-api';
+import Notification from '../../../shared/components/notification';
 
 import ModalAddPersonComponent from './add-person-component';
 
@@ -28,6 +29,7 @@ const onSubmit = (values, dispatch, props) => {
     if (isSuccess(res.type)) {
       dispatch(addPerson(res.data));
       dispatch(reset(ADD_PEOPLE_REDUX_FORM));
+      Notification.success('Add Person Successfully!');
     }
   });
 };
