@@ -9,7 +9,7 @@ class GroupComponent extends React.Component {
     super(props);
     this.state = {
       groups: '',
-      limit: '',
+      minimum: '',
       madeGroup: [],
     };
     this.result = [];
@@ -25,34 +25,39 @@ class GroupComponent extends React.Component {
   }
   makeGroups() {
     const { loadPeopleRandom, peopleCount } = this.props;
-    const { groups, limit } = this.state;
+    const { groups, minimum } = this.state;
     this.result = [];
-    if (Math.ceil(peopleCount / parseInt(limit, 10)) < parseInt(groups, 10)) {
-      Notification.error(`Too many!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
-    } else if (Math.ceil(peopleCount / parseInt(limit, 10)) > parseInt(groups, 10)) {
-      Notification.error(`Too low!! You can make ${Math.ceil(peopleCount / parseInt(limit, 10))} groups`);
+    this.current = Math.ceil(peopleCount / parseInt(groups, 10));
+    this.currentCount = peopleCount;
+    if (Math.floor(peopleCount / parseInt(groups, 10)) < parseInt(minimum, 10)) {
+      Notification.error(`You can make within ${Math.floor(peopleCount / parseInt(minimum, 10))} groups`);
     } else {
-      for (let i = 0; i < Math.ceil(peopleCount / parseInt(limit, 10)); i += 1) {
+      for (let i = 0; i < parseInt(groups, 10); i += 1) {
         this.result.push([]);
       }
       loadPeopleRandom()
         .then((res) => {
           let i = 0;
+          let z = 0;
           res.data.forEach((item) => {
-            if (this.result[i].length >= parseInt(limit, 10)) {
+            if (this.current === z) {
               i += 1;
+              z = 0;
+              this.currentCount -= this.current;
+              this.current = Math.ceil(this.currentCount / (parseInt(groups, 10) - i));
             }
+            z += 1;
             this.result[i].push(item);
           });
         })
         .then(() => {
           this.setState({ madeGroup: this.result });
-          Notification.success(`Made ${peopleCount / parseInt(limit, 10)} groups`);
+          Notification.success(`Made ${groups} groups`);
         });
     }
   }
   render() {
-    const { groups, limit, madeGroup } = this.state;
+    const { groups, minimum, madeGroup } = this.state;
     return (
       <Grid container spacing={16} justify="center">
         <Grid item xs={4}>
@@ -66,8 +71,8 @@ class GroupComponent extends React.Component {
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel htmlFor="limit">Limit of a Group</InputLabel>
-                  <Input id="limit" value={limit} onChange={event => this.handleChange(event, 'limit')} />
+                  <InputLabel htmlFor="minimum">Minimum of a Group</InputLabel>
+                  <Input id="minimum" value={minimum} onChange={event => this.handleChange(event, 'minimum')} />
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
