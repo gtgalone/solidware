@@ -55,9 +55,6 @@ gulp.task('webpack:build-dev', (callback) => {
   devCompiler.run(webpackCallback('webpack:build-dev', callback));
 });
 
-// dist
-gulp.task('dist', ['styles:dist', 'webpack:build']);
-
 gulp.task('browser-sync', ['nodemon'], () => {
   browserSync.init(null, {
     proxy: 'http://localhost:3000',
